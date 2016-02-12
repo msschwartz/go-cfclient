@@ -15,6 +15,7 @@ func TestDefaultConfig(t *testing.T) {
 		So(c.Password, ShouldEqual, "admin")
 		So(c.SkipSslValidation, ShouldEqual, false)
 		So(c.Token, ShouldEqual, "")
+		So(c.ClientID, ShouldEqual, "cf")
 	})
 }
 

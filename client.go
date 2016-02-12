@@ -36,6 +36,7 @@ type Config struct {
 	HttpClient        *http.Client
 	Token             string
 	TokenSource       oauth2.TokenSource
+	ClientID          string
 }
 
 // request is used to help build up a request
@@ -59,6 +60,7 @@ func DefaultConfig() *Config {
 		Token:             "",
 		SkipSslValidation: false,
 		HttpClient:        http.DefaultClient,
+		ClientID:          "cf",
 	}
 }
 
@@ -96,6 +98,10 @@ func NewClient(config *Config) *Client {
 		config.Token = defConfig.Token
 	}
 
+	if len(config.ClientID) == 0 {
+		config.ClientID = defConfig.ClientID
+	}
+
 	ctx := oauth2.NoContext
 	if config.SkipSslValidation == false {
 		ctx = context.WithValue(ctx, oauth2.HTTPClient, defConfig.HttpClient)
@@ -118,7 +124,7 @@ func NewClient(config *Config) *Client {
 	}
 
 	authConfig := &oauth2.Config{
-		ClientID: "cf",
+		ClientID: config.ClientID,
 		Scopes:   []string{""},
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  endpoint.AuthEndpoint + "/oauth/auth",
